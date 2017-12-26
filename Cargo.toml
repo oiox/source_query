@@ -1,0 +1,7 @@
+[package]
+name = "source_query"
+version = "0.1.0"
+authors = ["oiox <oiox@tuta.io>"]
+
+[dependencies]
+bytes = "0.4"
