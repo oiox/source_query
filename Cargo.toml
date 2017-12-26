@@ -1,6 +1,8 @@
 [package]
 name = "source_query"
 version = "0.1.0"
+description = "Query Source Game servers"
+license = "MIT"
 authors = ["oiox <oiox@tuta.io>"]
 
 [dependencies]
