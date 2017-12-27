@@ -174,21 +174,31 @@ use std::time::Duration;
 
 /// Query a Source game server with the [Source Queries](https://developer.valvesoftware.com/wiki/Server_Queries) protocol using an [A2FS_INFO](https://developer.valvesoftware.com/wiki/Server_Queries#A2S_INFO) request.
 ///
+/// Blocks the current thread till the request completed or the timeout was reached.
 /// Returns `ServerInfo` on success with various informations about the server.
 ///
 /// # Examples
 ///
-/// Query a server with address 1.2.3.4 and port 27015.
+/// Query a server with address 1.2.3.4 and port 27015 with no timeout.
 ///
 /// ```
 /// use source_query::query;
 ///
-/// let info = query("1.2.3.4:27015")?;
+/// let info = query("1.2.3.4:27015", None)?;
 /// ```
-pub fn query<T: ToSocketAddrs>(addr: T) -> io::Result<ServerInfo> {
+///
+/// Query a server with address 1.2.3.4 and port 27015 with a timeout of 3 seconds.
+///
+/// ```
+/// use source_query::query;
+/// use std::time::Duration;
+///
+/// let info = query("1.2.3.4:27015", Some(Duration::from_secs(3)))?;
+/// ```
+pub fn query<T: ToSocketAddrs>(addr: T, timeout: Option<Duration>) -> io::Result<ServerInfo> {
     let socket = UdpSocket::bind("0.0.0.0:0")?;
 
-    socket.set_read_timeout(Some(Duration::from_secs(5)))?;
+    socket.set_read_timeout(timeout)?;
     socket.connect(addr)?;
 
     let mut buf = vec![];
