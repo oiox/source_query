@@ -17,26 +17,47 @@ pub enum OS {
 }
 
 #[derive(Clone)]
+/// Information about a server returned by an A2FS_INFO request.
 pub struct ServerInfo {
+    /// Protocol version used by the server.
     pub protocol_version: u8,
+    /// Name of the server.
     pub name: String,
+    /// Currently running map of the server.
     pub map: String,
+    /// Name of the folder containing the game files.
     pub folder: String,
+    /// Full name of the game.
     pub game: String,
+    /// Steam Application ID of the game.
     pub steamapp_id: i16,
+    /// Number of players on the server.
     pub players: u8,
+    /// Maximum number of players on the server.
     pub max_players: u8,
+    /// Number of bots on the server.
     pub bots: u8,
+    /// Type of the server.
     pub server_type: ServerType,
+    /// Operating system of the server.
     pub os: OS,
+    /// Indicates whether the server requires a password.
     pub is_public: bool,
+    /// Indicates whether the server uses VAC.
     pub uses_vac: bool,
+    /// Version of the game installed on the server.
     pub version: String,
+    /// Server's game port number.
     pub port: Option<i16>,
+    /// Server's Steam ID.
     pub steam_id: Option<u64>,
+    /// Spectator port number for SourceTV.
     pub spectator_port: Option<i16>,
+    /// Name of the spectator server for SourceTV.
     pub spectator_name: Option<String>,
+    /// Tags that describe the game according to the server.
     pub keywords: Option<String>,
+    /// Server's Game ID.
     pub game_id: Option<u64>,
 }
 
@@ -151,6 +172,19 @@ use std::net::{ToSocketAddrs, UdpSocket};
 use std::io;
 use std::time::Duration;
 
+/// Query a Source game server with the [Source Queries](https://developer.valvesoftware.com/wiki/Server_Queries) protocol using an [A2FS_INFO](https://developer.valvesoftware.com/wiki/Server_Queries#A2S_INFO) request.
+///
+/// Returns `ServerInfo` on success with various informations about the server.
+///
+/// # Examples
+///
+/// Query a server with address 1.2.3.4 and port 27015.
+///
+/// ```
+/// use source_query::query;
+///
+/// let info = query("1.2.3.4:27015")?;
+/// ```
 pub fn query<T: ToSocketAddrs>(addr: T) -> io::Result<ServerInfo> {
     let socket = UdpSocket::bind("0.0.0.0:0")?;
 
