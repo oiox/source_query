@@ -1,6 +1,8 @@
 [package]
 name = "source_query"
 version = "0.1.2"
+documentation = "https://docs.rs/source_query/"
+repository = "https://github.com/oiox/source_query"
 description = "Query Source Game servers"
 license = "MIT"
 authors = ["oiox <oiox@tuta.io>"]
