@@ -221,7 +221,7 @@ pub fn query<T: ToSocketAddrs>(addr: T, timeout: Option<Duration>) -> io::Result
         return Err(Error::new(ErrorKind::InvalidData, format!("Unknown header: {}", header)));
     };
 
-    ServerInfo::from_bytes(&mut buf)
+    Response::from_bytes(&mut buf)
 }
 
 
